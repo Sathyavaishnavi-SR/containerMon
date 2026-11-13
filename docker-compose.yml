@@ -1,0 +1,22 @@
+
+services:
+  backend:
+    build:
+      context: ./backend/src
+      dockerfile: ../Dockerfile
+    environment:
+      DOCKER_SOCKET: /var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    expose:
+      - "5000"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
